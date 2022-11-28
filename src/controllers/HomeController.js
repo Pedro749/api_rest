@@ -7,8 +7,8 @@ class HomeController {
       email: 'pedro@teste.com',
       age: 21,
       weight: 65.0,
-      height: 1.71
-    })
+      height: 1.71,
+    });
     response.json(newStudent);
   }
 }
