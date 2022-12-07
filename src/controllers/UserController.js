@@ -4,44 +4,18 @@ class UserController {
   async store(request, response) {
     try {
       const newUser = await User.create(request.body);
-      return response.json(newUser);
+      const { id, name, email } = newUser;
+
+      return response.json({ id, name, email });
     } catch (e) {
       return response.status(400).json({ errors: e.errors.map((erro) => erro.message) });
     }
   }
 
-  async index(request, response) {
-    try {
-      const users = await User.findAll();
-
-      return response.json(users);
-    } catch (e) {
-      return response.json(null);
-    }
-  }
-
-  async show(request, response) {
-    try {
-      const { id } = request.params;
-      const user = await User.findByPk(id);
-
-      return response.json(user);
-    } catch (e) {
-      return response.json(null);
-    }
-  }
-
   async update(request, response) {
     try {
-      const { id } = request.params;
-
-      if (!id) {
-        return response.status(400).json({
-          errors: ['Missing id'],
-        });
-      }
-
-      const user = await User.findByPk(id);
+      const idUser = request.userId;
+      const user = await User.findByPk(idUser);
 
       if (!user) {
         return response.status(400).json({
@@ -50,8 +24,9 @@ class UserController {
       }
 
       const userUpdated = await user.update(request.body);
+      const { id, name, email } = userUpdated;
 
-      return response.json(userUpdated);
+      return response.json({ id, name, email });
     } catch (e) {
       return response.status(400).json({ errors: e.errors.map((erro) => erro.message) });
     }
@@ -59,14 +34,7 @@ class UserController {
 
   async delete(request, response) {
     try {
-      const { id } = request.params;
-
-      if (!id) {
-        return response.status(400).json({
-          errors: ['Missing id'],
-        });
-      }
-
+      const id = request.userId;
       const user = await User.findByPk(id);
 
       if (!user) {
@@ -76,7 +44,8 @@ class UserController {
       }
 
       await user.destroy();
-      return response.json(user);
+
+      return response.json(null);
     } catch (e) {
       return response.status(400).json({ errors: e.errors.map((erro) => erro.message) });
     }
