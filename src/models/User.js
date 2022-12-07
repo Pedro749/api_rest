@@ -19,7 +19,7 @@ export default class User extends Model {
         defaultValue: '',
         validate: {
           isEmail: {
-            msg: 'Invalid e-mail',
+            msg: 'Invalid email',
           },
         },
       },
