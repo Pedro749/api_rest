@@ -4,6 +4,7 @@ import homeRoutes from './routes/homeRoutes';
 import userRoutes from './routes/userRoutes';
 import tokenRoutes from './routes/tokenRoutes';
 import studentRoutes from './routes/studentRoutes';
+import photoRoutes from './routes/photoRoutes';
 import './database';
 
 dotenv.config();
@@ -25,6 +26,7 @@ class App {
     this.app.use('/users/', userRoutes);
     this.app.use('/tokens/', tokenRoutes);
     this.app.use('/students/', studentRoutes);
+    this.app.use('/photos/', photoRoutes);
   }
 }
 
