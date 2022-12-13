@@ -9,15 +9,21 @@ class PhotoController {
     return upload(request, response, async (error) => {
       if (error) {
         return response.status(400).json({
-          error: [error.code],
+          errors: [error.code],
         });
       }
 
-      const { originalname, filename } = request.file;
-      const { student_id } = request.body;
-      const photo = await Photo.create({ originalname, filename, student_id });
+      try {
+        const { originalname, filename } = request.file;
+        const { student_id } = request.body;
+        const photo = await Photo.create({ originalname, filename, student_id });
 
-      return response.json(request.file);
+        return response.json(photo);
+      } catch (e) {
+        return response.status(400).json({
+          errors: ['Student not found'],
+        });
+      }
     });
   }
 }
